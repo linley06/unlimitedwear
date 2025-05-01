@@ -38,7 +38,7 @@
 <body>
   <div class="stars" id="stars"></div>
   <div class="flex items-center justify-center h-screen z-10 relative">
-    <h1 id="title" class="text-white text-6xl font-bold opacity-0 scale-75">UnlimitedWear</h1>
+    <h1 id="title" class="text-white text-6xl font-bold opacity-0 scale-75">UnlimitedWear™</h1>
   </div>
 
   <script>
