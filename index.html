@@ -7,6 +7,12 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Heartless';
+      src: url('Heartless.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
     body {
       margin: 0;
       overflow: hidden;
@@ -33,16 +39,18 @@
       0%, 100% { opacity: 0.8; }
       50% { opacity: 0.2; }
     }
+    .heartless-font {
+      font-family: 'Heartless', sans-serif;
+    }
   </style>
 </head>
 <body>
   <div class="stars" id="stars"></div>
   <div class="flex items-center justify-center h-screen z-10 relative">
-    <h1 id="title" class="text-white text-4xl font-semibold opacity-0 scale-75">UnlimitedWear™</h1>
+    <h1 id="title" class="heartless-font text-white text-4xl opacity-0 scale-75">UnlimitedWear™</h1>
   </div>
 
   <script>
-    // Animate title
     gsap.to("#title", {
       duration: 2,
       opacity: 1,
@@ -51,7 +59,6 @@
       ease: "power4.out"
     });
 
-    // Generate stars
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
