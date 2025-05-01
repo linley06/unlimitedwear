@@ -13,28 +13,43 @@
       font-weight: normal;
       font-style: normal;
     }
-    body {
+
+    html, body {
       margin: 0;
       overflow: hidden;
-      background: linear-gradient(-45deg, #000428, #004e92, #3f87a6, #1b2735);
-      background-size: 400% 400%;
-      animation: illusion 10s ease infinite;
       perspective: 1000px;
       touch-action: none;
     }
+
+    body {
+      background: linear-gradient(-45deg, #000428, #004e92, #3f87a6, #1b2735);
+      background-size: 400% 400%;
+      animation: illusion 15s ease infinite;
+    }
+
     @keyframes illusion {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    .stars {
+
+    .parallax {
       position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
+      overflow: hidden;
+      top: 0;
+      left: 0;
       z-index: 0;
+      transform-style: preserve-3d;
     }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
     .star {
       position: absolute;
       width: 2px;
@@ -44,28 +59,38 @@
       opacity: 0.8;
       animation: twinkle 2s infinite ease-in-out;
     }
+
     @keyframes twinkle {
       0%, 100% { opacity: 0.8; }
       50% { opacity: 0.2; }
     }
+
+    .content {
+      position: relative;
+      z-index: 10;
+    }
+
     .heartless-font {
       font-family: 'Heartless', sans-serif;
     }
+
     #title {
       transform-style: preserve-3d;
     }
   </style>
 </head>
 <body>
-  <div class="stars" id="stars"></div>
-  <div class="flex items-center justify-center h-screen z-10 relative">
+  <div class="parallax" id="parallax">
+    <div class="stars" id="stars"></div>
+  </div>
+
+  <div class="flex items-center justify-center h-screen content">
     <h1 id="title" class="heartless-font text-white text-4xl opacity-0 scale-75">UnlimitedWear™</h1>
   </div>
 
   <script>
+    // Animate Title
     const title = document.getElementById("title");
-
-    // Animate in
     gsap.to(title, {
       duration: 2,
       opacity: 1,
@@ -73,7 +98,7 @@
       ease: "power4.out"
     });
 
-    // Stars
+    // Generate Stars
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -83,7 +108,7 @@
       starsContainer.appendChild(star);
     }
 
-    // 3D Drag Rotation
+    // Rotation (3D Drag)
     let rotationX = 0;
     let rotationY = 0;
     let startX, startY;
@@ -110,6 +135,9 @@
       const deltaY = e.clientY - startY;
       rotationY = startRotY + deltaX * 0.5;
       rotationX = startRotX - deltaY * 0.5;
+
+      // Parallax movement
+      document.getElementById("parallax").style.transform = `translate(${deltaX * 0.05}px, ${deltaY * 0.05}px)`;
     });
 
     window.addEventListener("pointerup", () => {
