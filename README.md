@@ -9,7 +9,7 @@
   <style>
     body {
       margin: 0;
-      overflow: hidden;
+      overflow-x: hidden;
       background: radial-gradient(ellipse at center, #000428, #004e92);
     }
     .stars {
@@ -40,7 +40,20 @@
   <div class="stars" id="stars"></div>
   <div class="flex items-center justify-center h-screen z-10 relative">
     <h1 id="title" class="text-white text-5xl md:text-7xl font-bold opacity-0 transform scale-75">UnlimitedWear</h1>
-  </div>  <script>
+  </div>  <!-- Product Section -->  <section class="relative z-10 bg-black text-white py-16 px-4">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8">Featured Product</h2>
+      <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+        <img src="file-K8gcGcGX3qLHwgk6UnCoJs" alt="Front view" class="w-64 rounded-lg shadow-lg" />
+        <img src="file-Hh1X9ikMXNkxFpn8mw552b" alt="Back view" class="w-64 rounded-lg shadow-lg" />
+      </div>
+      <div class="mt-8">
+        <h3 class="text-2xl font-semibold">Made of Money Tee</h3>
+        <p class="text-lg">Rs 600</p>
+        <button class="mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 transition">Buy Now</button>
+      </div>
+    </div>
+  </section>  <script>
     // Animate text
     gsap.to("#title", {
       duration: 2,
