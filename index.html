@@ -51,14 +51,17 @@
   </div>
 
   <script>
-    gsap.to("#title", {
+    const title = document.getElementById("title");
+
+    // Animate on load
+    gsap.to(title, {
       duration: 2,
       opacity: 1,
       scale: 1,
-      rotationY: 360,
       ease: "power4.out"
     });
 
+    // Stars
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -67,6 +70,29 @@
       star.style.left = Math.random() * 100 + "%";
       starsContainer.appendChild(star);
     }
+
+    // Touch/drag to rotate
+    let isDragging = false;
+    let startX = 0;
+    let currentRotation = 0;
+
+    title.addEventListener("pointerdown", (e) => {
+      isDragging = true;
+      startX = e.clientX || e.touches?.[0]?.clientX || 0;
+    });
+
+    window.addEventListener("pointermove", (e) => {
+      if (!isDragging) return;
+      const x = e.clientX || e.touches?.[0]?.clientX || 0;
+      const deltaX = x - startX;
+      startX = x;
+      currentRotation += deltaX * 0.5;
+      title.style.transform = `rotateY(${currentRotation}deg)`;
+    });
+
+    window.addEventListener("pointerup", () => {
+      isDragging = false;
+    });
   </script>
 </body>
 </html>
