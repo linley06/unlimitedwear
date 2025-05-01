@@ -18,6 +18,7 @@
       overflow: hidden;
       background: radial-gradient(ellipse at center, #000428, #004e92);
       perspective: 1000px;
+      touch-action: none;
     }
     .stars {
       position: absolute;
@@ -75,18 +76,14 @@
       starsContainer.appendChild(star);
     }
 
-    // Full 3D rotation
+    // 3D rotation — follow finger accurately
     let rotationX = 0;
     let rotationY = 0;
-    let targetX = 0;
-    let targetY = 0;
+    let startX, startY;
+    let startRotX, startRotY;
     let isDragging = false;
-    let startX = 0;
-    let startY = 0;
 
     function animate() {
-      rotationX += (targetX - rotationX) * 0.1;
-      rotationY += (targetY - rotationY) * 0.1;
       title.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
       requestAnimationFrame(animate);
     }
@@ -96,16 +93,16 @@
       isDragging = true;
       startX = e.clientX;
       startY = e.clientY;
+      startRotX = rotationX;
+      startRotY = rotationY;
     });
 
     window.addEventListener("pointermove", (e) => {
       if (!isDragging) return;
       const deltaX = e.clientX - startX;
       const deltaY = e.clientY - startY;
-      startX = e.clientX;
-      startY = e.clientY;
-      targetY += deltaX * 0.5;
-      targetX -= deltaY * 0.5;
+      rotationY = startRotY + deltaX * 0.5;
+      rotationX = startRotX - deltaY * 0.5;
     });
 
     window.addEventListener("pointerup", () => {
