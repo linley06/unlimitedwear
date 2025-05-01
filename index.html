@@ -53,7 +53,7 @@
   <script>
     const title = document.getElementById("title");
 
-    // Initial entrance animation
+    // Animate in
     gsap.to(title, {
       duration: 2,
       opacity: 1,
@@ -61,7 +61,7 @@
       ease: "power4.out"
     });
 
-    // Stars background
+    // Star field
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -71,10 +71,18 @@
       starsContainer.appendChild(star);
     }
 
-    // Rotation logic
-    let currentRotation = 0;
+    // Manual rotate only
+    let rotation = 0;
+    let targetRotation = 0;
     let isDragging = false;
     let startX = 0;
+
+    function animate() {
+      rotation += (targetRotation - rotation) * 0.1;
+      title.style.transform = `rotateY(${rotation}deg)`;
+      requestAnimationFrame(animate);
+    }
+    animate();
 
     title.addEventListener("pointerdown", (e) => {
       isDragging = true;
@@ -86,22 +94,12 @@
       const x = e.clientX || e.touches?.[0]?.clientX || 0;
       const deltaX = x - startX;
       startX = x;
-      currentRotation += deltaX * 0.5;
+      targetRotation += deltaX * 0.7;
     });
 
     window.addEventListener("pointerup", () => {
       isDragging = false;
     });
-
-    function animateRotation() {
-      if (!isDragging) {
-        currentRotation += 0.2; // Auto rotation speed
-      }
-      title.style.transform = `rotateY(${currentRotation}deg)`;
-      requestAnimationFrame(animateRotation);
-    }
-
-    animateRotation();
   </script>
 </body>
 </html>
