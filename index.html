@@ -47,6 +47,23 @@
     #title {
       transform-style: preserve-3d;
     }
+    /* Ripple Effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+      transform: scale(0);
+      animation: ripple-effect 0.6s ease-out;
+      z-index: 5;
+    }
+
+    @keyframes ripple-effect {
+      to {
+        transform: scale(20);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -76,7 +93,7 @@
       starsContainer.appendChild(star);
     }
 
-    // Accurate 3D drag
+    // 3D Drag Rotation
     let rotationX = 0;
     let rotationY = 0;
     let startX, startY;
@@ -107,6 +124,17 @@
 
     window.addEventListener("pointerup", () => {
       isDragging = false;
+    });
+
+    // Touch ripple effect
+    window.addEventListener("pointerdown", function(e) {
+      const ripple = document.createElement("div");
+      ripple.className = "ripple";
+      ripple.style.width = ripple.style.height = "100px";
+      ripple.style.left = `${e.clientX - 50}px`;
+      ripple.style.top = `${e.clientY - 50}px`;
+      document.body.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
     });
   </script>
 </body>
