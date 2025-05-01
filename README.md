@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,7 +41,9 @@
   <div class="stars" id="stars"></div>
   <div class="flex items-center justify-center h-screen z-10 relative">
     <h1 id="title" class="text-white text-5xl md:text-7xl font-bold opacity-0 transform scale-75">UnlimitedWear</h1>
-  </div>  <script>
+  </div>
+
+  <script>
     // Animate text
     gsap.to("#title", {
       duration: 2,
@@ -59,5 +62,6 @@
       star.style.left = `${Math.random() * 100}%`;
       starsContainer.appendChild(star);
     }
-  </script></body>
+  </script>
+</body>
 </html>
