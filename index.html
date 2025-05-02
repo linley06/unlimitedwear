@@ -109,6 +109,11 @@
 
     #title {
       transform-style: preserve-3d;
+      text-shadow:
+        1px 1px 0 #222,
+        2px 2px 0 #111,
+        3px 3px 0 #000,
+        4px 4px 5px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
@@ -125,7 +130,6 @@
   </div>
 
   <script>
-    // Animate Title
     const title = document.getElementById("title");
     gsap.to(title, {
       duration: 2,
@@ -134,7 +138,6 @@
       ease: "power4.out"
     });
 
-    // Generate Stars
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -144,7 +147,6 @@
       starsContainer.appendChild(star);
     }
 
-    // Rotation and Parallax
     let rotationX = 0;
     let rotationY = 0;
     let startX, startY;
