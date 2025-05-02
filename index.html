@@ -83,9 +83,10 @@
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(ellipse at 30% 30%, rgba(128, 0, 128, 0.4), transparent 70%),
-        radial-gradient(ellipse at 70% 60%, rgba(0, 191, 255, 0.4), transparent 80%),
-        radial-gradient(ellipse at 50% 50%, rgba(255, 105, 180, 0.2), transparent 60%);
+        radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.5), transparent 60%),
+        radial-gradient(circle at 80% 50%, rgba(0, 255, 255, 0.5), transparent 70%),
+        radial-gradient(circle at 50% 70%, rgba(255, 255, 0, 0.4), transparent 65%),
+        radial-gradient(circle at 30% 80%, rgba(255, 105, 180, 0.5), transparent 60%);
       mix-blend-mode: screen;
       z-index: 0;
     }
@@ -103,6 +104,7 @@
     .content {
       position: relative;
       z-index: 10;
+      text-align: center;
     }
 
     .heartless-font {
@@ -111,6 +113,21 @@
 
     #title {
       transform-style: preserve-3d;
+    }
+
+    .view-btn {
+      margin-top: 20px;
+      padding: 10px 24px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 2px solid white;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .view-btn:hover {
+      background: white;
+      color: #000;
     }
   </style>
 </head>
@@ -122,14 +139,13 @@
     <div class="curved-bg"></div>
   </div>
 
-  <div class="flex flex-col items-center justify-center h-screen content space-y-6">
+  <div class="flex items-center justify-center h-screen content flex-col">
     <h1 id="title" class="heartless-font text-white text-4xl opacity-0 scale-75">UnlimitedWear™</h1>
-    <button class="bg-white text-black px-6 py-2 rounded-full text-lg font-semibold hover:bg-gray-200 transition">
-      View Products
-    </button>
+    <button class="view-btn">View Products</button>
   </div>
 
   <script>
+    // Animate Title
     const title = document.getElementById("title");
     gsap.to(title, {
       duration: 2,
@@ -138,6 +154,7 @@
       ease: "power4.out"
     });
 
+    // Generate Stars
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -147,6 +164,7 @@
       starsContainer.appendChild(star);
     }
 
+    // Rotation and Parallax
     let rotationX = 0;
     let rotationY = 0;
     let startX, startY;
