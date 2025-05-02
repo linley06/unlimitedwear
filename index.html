@@ -25,9 +25,13 @@
 
     .stars {
       position: absolute;
-      width: 100%;
-      height: 100%;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      pointer-events: none;
       z-index: 0;
+      transition: transform 0.1s ease-out;
     }
 
     .star {
@@ -46,6 +50,8 @@
 
     #title {
       text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
     }
 
     .btn {
@@ -72,14 +78,41 @@
   </div>
 
   <script>
+    // Generate stars
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
       star.className = "star";
-      star.style.top = Math.random() * 100 + "%";
-      star.style.left = Math.random() * 100 + "%";
+      star.style.top = Math.random() * 200 + "%";
+      star.style.left = Math.random() * 200 + "%";
       starsContainer.appendChild(star);
     }
+
+    // Interactive motion
+    const title = document.getElementById('title');
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      const y = (e.clientY / window.innerHeight - 0.5) * -30;
+      title.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+
+      const offsetX = (e.clientX / window.innerWidth - 0.5) * 50;
+      const offsetY = (e.clientY / window.innerHeight - 0.5) * 50;
+      starsContainer.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+
+    // Touch support
+    document.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const x = (touch.clientX / window.innerWidth - 0.5) * 30;
+        const y = (touch.clientY / window.innerHeight - 0.5) * -30;
+        title.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+
+        const offsetX = (touch.clientX / window.innerWidth - 0.5) * 50;
+        const offsetY = (touch.clientY / window.innerHeight - 0.5) * 50;
+        starsContainer.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      }
+    });
   </script>
 </body>
 </html>
