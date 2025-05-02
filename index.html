@@ -82,7 +82,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      background: 
+      background:
         radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.5), transparent 60%),
         radial-gradient(circle at 80% 50%, rgba(0, 255, 255, 0.5), transparent 70%),
         radial-gradient(circle at 50% 70%, rgba(255, 255, 0, 0.4), transparent 65%),
@@ -124,19 +124,26 @@
   </div>
 
   <div class="flex flex-col items-center justify-center h-screen content space-y-4">
-    <h1 id="title" class="heartless-font text-white text-4xl opacity-0 scale-75">UnlimitedWear™</h1>
-    <a href="products.html"
+    <h1 id="title" class="heartless-font text-white text-4xl">UnlimitedWear™</h1>
+    <a id="viewBtn" href="products.html"
       class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300">
       View Product
     </a>
   </div>
 
   <script>
-    const title = document.getElementById("title");
-    gsap.to(title, {
+    gsap.from("#title", {
+      y: -100,
+      opacity: 0,
       duration: 2,
-      opacity: 1,
-      scale: 1,
+      ease: "power4.out"
+    });
+
+    gsap.from("#viewBtn", {
+      y: -100,
+      opacity: 0,
+      duration: 2,
+      delay: 0.5,
       ease: "power4.out"
     });
 
@@ -156,12 +163,12 @@
     let isDragging = false;
 
     function animate() {
-      title.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+      document.getElementById("title").style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
       requestAnimationFrame(animate);
     }
     animate();
 
-    title.addEventListener("pointerdown", (e) => {
+    document.getElementById("title").addEventListener("pointerdown", (e) => {
       isDragging = true;
       startX = e.clientX;
       startY = e.clientY;
@@ -175,7 +182,6 @@
       const deltaY = e.clientY - startY;
       rotationY = startRotY + deltaX * 0.5;
       rotationX = startRotX - deltaY * 0.5;
-
       document.getElementById("parallax").style.transform = `translate(${deltaX * 0.05}px, ${deltaY * 0.05}px)`;
     });
 
