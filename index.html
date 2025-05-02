@@ -114,27 +114,23 @@
       transform-style: preserve-3d;
     }
 
-    .menu-button {
-      position: absolute;
+    #menu-button {
+      position: fixed;
       top: 1rem;
       right: 1rem;
       z-index: 20;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      cursor: pointer;
     }
 
-    .menu-icon {
-      width: 2rem;
-      height: 2rem;
-      border: 2px solid white;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      padding: 0.25rem;
-    }
-
-    .menu-icon span {
+    #menu-button div {
+      width: 1.5rem;
+      height: 0.125rem;
       background-color: white;
-      height: 2px;
-      width: 100%;
+      margin: 0.25rem 0;
     }
   </style>
 </head>
@@ -146,19 +142,16 @@
     <div class="curved-bg"></div>
   </div>
 
-  <!-- Menu Button -->
-  <div class="menu-button">
-    <div class="menu-icon">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+  <div id="menu-button">
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 
   <div class="flex flex-col items-center justify-center h-screen content space-y-4">
-    <h1 id="title" class="heartless-font text-white text-4xl opacity-0 scale-75">UnlimitedWear™</h1>
+    <h1 id="title" class="heartless-font text-white text-4xl opacity-0">UnlimitedWear™</h1>
     <a id="viewProduct" href="products.html"
-      class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300 opacity-0">
+      class="opacity-0 border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300">
       View Product
     </a>
   </div>
@@ -167,17 +160,11 @@
     const title = document.getElementById("title");
     const viewProduct = document.getElementById("viewProduct");
 
-    gsap.fromTo(title,
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 2.5, ease: "power4.out" }
-    );
+    // Fade-in animation
+    gsap.fromTo(title, { opacity: 0 }, { opacity: 1, duration: 2.5, ease: "power2.out" });
+    gsap.fromTo(viewProduct, { opacity: 0 }, { opacity: 1, duration: 2.5, ease: "power2.out", delay: 0.5 });
 
-    gsap.fromTo(viewProduct, 
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 2.5, ease: "power4.out", delay: 0.5, clearProps: "y" }
-    );
-
-    // Floating animation after entrance
+    // Floating effect
     setTimeout(() => {
       gsap.to(viewProduct, {
         y: 10,
@@ -188,6 +175,7 @@
       });
     }, 3000);
 
+    // Star generator
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -197,10 +185,8 @@
       starsContainer.appendChild(star);
     }
 
-    let rotationX = 0;
-    let rotationY = 0;
-    let startX, startY;
-    let startRotX, startRotY;
+    // Drag to rotate title
+    let rotationX = 0, rotationY = 0, startX, startY, startRotX, startRotY;
     let isDragging = false;
 
     function animate() {
@@ -223,7 +209,6 @@
       const deltaY = e.clientY - startY;
       rotationY = startRotY + deltaX * 0.5;
       rotationX = startRotX - deltaY * 0.5;
-
       document.getElementById("parallax").style.transform = `translate(${deltaX * 0.05}px, ${deltaY * 0.05}px)`;
     });
 
