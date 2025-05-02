@@ -117,9 +117,14 @@
 </head>
 <body>
   <div class="waves"></div>
+  <div class="parallax" id="parallax">
+    <div class="nebula"></div>
+    <div class="stars" id="stars"></div>
+    <div class="curved-bg"></div>
+  </div>
 
   <!-- Menu Button -->
-  <div class="absolute top-4 right-4 z-20">
+  <div class="absolute top-6 right-4 z-20">
     <button id="menuButton" class="w-10 h-10 flex flex-col justify-center items-center space-y-1 bg-white/10 border border-white/30 rounded-md p-2 hover:bg-white/20 transition duration-300">
       <span class="block w-5 h-0.5 bg-white"></span>
       <span class="block w-5 h-0.5 bg-white"></span>
@@ -127,16 +132,10 @@
     </button>
   </div>
 
-  <div class="parallax" id="parallax">
-    <div class="nebula"></div>
-    <div class="stars" id="stars"></div>
-    <div class="curved-bg"></div>
-  </div>
-
   <div class="flex flex-col items-center justify-center h-screen content space-y-4">
     <h1 id="title" class="heartless-font text-white text-4xl opacity-0 scale-75">UnlimitedWear™</h1>
     <a id="viewProduct" href="products.html"
-      class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300 opacity-0">
+      class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300">
       View Product
     </a>
   </div>
@@ -145,18 +144,29 @@
     const title = document.getElementById("title");
     const viewProduct = document.getElementById("viewProduct");
 
-    // Title animation
+    // Animate title slide from top
     gsap.fromTo(title, 
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, scale: 1, duration: 2, ease: "power4.out" }
+      { y: -100, opacity: 0, scale: 0.75 },
+      { y: 0, opacity: 1, scale: 1, duration: 2.5, ease: "power4.out" }
     );
 
-    // Button animation
+    // Animate viewProduct slide and bounce
     gsap.fromTo(viewProduct, 
       { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 2.5, ease: "power4.out", delay: 0.5 }
+      { y: 0, opacity: 1, duration: 2.5, ease: "power4.out", delay: 0.5,
+        onComplete: () => {
+          gsap.to(viewProduct, {
+            y: 10,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        }
+      }
     );
 
+    // Stars generation
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -166,6 +176,7 @@
       starsContainer.appendChild(star);
     }
 
+    // 3D drag effect
     let rotationX = 0;
     let rotationY = 0;
     let startX, startY;
