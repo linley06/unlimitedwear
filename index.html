@@ -48,23 +48,27 @@
       text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
     }
 
-    #title a {
-      text-decoration: none;
+    .btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #1d4ed8;
       color: white;
+      font-weight: bold;
+      border-radius: 9999px;
+      transition: background-color 0.3s;
     }
 
-    #title a:hover {
-      text-decoration: underline;
+    .btn:hover {
+      background-color: #2563eb;
     }
   </style>
 </head>
 <body>
   <div class="stars" id="stars"></div>
 
-  <div class="flex items-center justify-center h-screen">
-    <h1 id="title" class="heartless-font text-white text-4xl">
-      <a href="products.html">UnlimitedWear™</a>
-    </h1>
+  <div class="flex flex-col items-center justify-center h-screen relative z-10">
+    <h1 id="title" class="heartless-font text-white text-4xl">UnlimitedWear™</h1>
+    <a href="products.html" class="btn">View Products</a>
   </div>
 
   <script>
