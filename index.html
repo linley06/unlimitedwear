@@ -116,7 +116,7 @@
 
     #menu-button {
       position: fixed;
-      top: 1rem;
+      top: 3.5rem;
       right: 1rem;
       z-index: 20;
       background-color: rgba(255, 255, 255, 0.05);
@@ -126,15 +126,21 @@
       cursor: pointer;
     }
 
-    #menu-button div {
-      width: 1.5rem;
-      height: 0.125rem;
+    .bar {
+      width: 24px;
+      height: 2px;
       background-color: white;
-      margin: 0.25rem 0;
+      margin: 4px 0;
     }
   </style>
 </head>
 <body>
+  <div id="menu-button">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
   <div class="waves"></div>
   <div class="parallax" id="parallax">
     <div class="nebula"></div>
@@ -142,40 +148,33 @@
     <div class="curved-bg"></div>
   </div>
 
-  <div id="menu-button">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-
   <div class="flex flex-col items-center justify-center h-screen content space-y-4">
-    <h1 id="title" class="heartless-font text-white text-4xl opacity-0">UnlimitedWear™</h1>
-    <a id="viewProduct" href="products.html"
-      class="opacity-0 border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300">
+    <h1 id="title" class="heartless-font text-white text-4xl opacity-0 scale-75">UnlimitedWear™</h1>
+    <a id="view-product" href="products.html"
+      class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300 opacity-0">
       View Product
     </a>
   </div>
 
   <script>
     const title = document.getElementById("title");
-    const viewProduct = document.getElementById("viewProduct");
+    const viewBtn = document.getElementById("view-product");
 
-    // Fade-in animation
-    gsap.fromTo(title, { opacity: 0 }, { opacity: 1, duration: 2.5, ease: "power2.out" });
-    gsap.fromTo(viewProduct, { opacity: 0 }, { opacity: 1, duration: 2.5, ease: "power2.out", delay: 0.5 });
+    // Fade in and float effect
+    gsap.to(title, {
+      duration: 2,
+      opacity: 1,
+      scale: 1,
+      ease: "power2.out"
+    });
 
-    // Floating effect
-    setTimeout(() => {
-      gsap.to(viewProduct, {
-        y: 10,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-    }, 3000);
+    gsap.to(viewBtn, {
+      delay: 2,
+      duration: 2.5,
+      opacity: 1,
+      ease: "power2.out"
+    });
 
-    // Star generator
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -185,8 +184,10 @@
       starsContainer.appendChild(star);
     }
 
-    // Drag to rotate title
-    let rotationX = 0, rotationY = 0, startX, startY, startRotX, startRotY;
+    let rotationX = 0;
+    let rotationY = 0;
+    let startX, startY;
+    let startRotX, startRotY;
     let isDragging = false;
 
     function animate() {
@@ -209,6 +210,7 @@
       const deltaY = e.clientY - startY;
       rotationY = startRotY + deltaX * 0.5;
       rotationX = startRotX - deltaY * 0.5;
+
       document.getElementById("parallax").style.transform = `translate(${deltaX * 0.05}px, ${deltaY * 0.05}px)`;
     });
 
