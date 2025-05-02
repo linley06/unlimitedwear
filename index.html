@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>UnlimitedWear™</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     @font-face {
@@ -13,25 +14,54 @@
 
     html, body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      background: radial-gradient(ellipse at bottom, #0d0d2b 0%, #000000 100%);
       overflow: hidden;
+      perspective: 1000px;
+      touch-action: none;
     }
 
-    .heartless-font {
-      font-family: 'Heartless', sans-serif;
+    body {
+      background: radial-gradient(ellipse at bottom, #0d0d2b 0%, #000000 100%);
+      background-size: 400% 400%;
+      animation: illusion 20s ease infinite;
+    }
+
+    @keyframes illusion {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .waves {
+      position: absolute;
+      width: 200%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 70%);
+      animation: waveMove 30s linear infinite;
+      transform: rotate(-5deg);
+      z-index: 1;
+    }
+
+    @keyframes waveMove {
+      0% { transform: translateX(-25%) rotate(-5deg); }
+      100% { transform: translateX(-75%) rotate(-5deg); }
+    }
+
+    .parallax {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      transform-style: preserve-3d;
     }
 
     .stars {
       position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      pointer-events: none;
-      z-index: 0;
-      transition: transform 0.1s ease-out;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
     }
 
     .star {
@@ -48,70 +78,105 @@
       50% { opacity: 0.2; }
     }
 
+    .nebula {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at 30% 30%, rgba(128,0,128,0.2), transparent 70%),
+                  radial-gradient(ellipse at 70% 60%, rgba(0, 191, 255, 0.2), transparent 80%);
+      mix-blend-mode: screen;
+      z-index: 0;
+    }
+
+    .curved-bg {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 300px;
+      background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
+      clip-path: ellipse(80% 100% at 50% 100%);
+      z-index: 1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
+    }
+
+    .heartless-font {
+      font-family: 'Heartless', sans-serif;
+    }
+
     #title {
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
       transform-style: preserve-3d;
-      transition: transform 0.1s ease-out;
-    }
-
-    .btn {
-      margin-top: 20px;
-      padding: 12px 24px;
-      background-color: #1d4ed8;
-      color: white;
-      font-weight: bold;
-      border-radius: 9999px;
-      transition: background-color 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #2563eb;
     }
   </style>
 </head>
 <body>
-  <div class="stars" id="stars"></div>
+  <div class="waves"></div>
+  <div class="parallax" id="parallax">
+    <div class="nebula"></div>
+    <div class="stars" id="stars"></div>
+    <div class="curved-bg"></div>
+  </div>
 
-  <div class="flex flex-col items-center justify-center h-screen relative z-10">
-    <h1 id="title" class="heartless-font text-white text-4xl">UnlimitedWear™</h1>
-    <a href="products.html" class="btn">View Products</a>
+  <div class="flex items-center justify-center h-screen content">
+    <h1 id="title" class="heartless-font text-white text-4xl opacity-0 scale-75">UnlimitedWear™</h1>
   </div>
 
   <script>
-    // Generate stars
+    // Animate Title
+    const title = document.getElementById("title");
+    gsap.to(title, {
+      duration: 2,
+      opacity: 1,
+      scale: 1,
+      ease: "power4.out"
+    });
+
+    // Generate Stars
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
       star.className = "star";
-      star.style.top = Math.random() * 200 + "%";
-      star.style.left = Math.random() * 200 + "%";
+      star.style.top = Math.random() * 100 + "%";
+      star.style.left = Math.random() * 100 + "%";
       starsContainer.appendChild(star);
     }
 
-    // Interactive motion
-    const title = document.getElementById('title');
-    document.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 30;
-      const y = (e.clientY / window.innerHeight - 0.5) * -30;
-      title.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+    // Rotation and Parallax
+    let rotationX = 0;
+    let rotationY = 0;
+    let startX, startY;
+    let startRotX, startRotY;
+    let isDragging = false;
 
-      const offsetX = (e.clientX / window.innerWidth - 0.5) * 50;
-      const offsetY = (e.clientY / window.innerHeight - 0.5) * 50;
-      starsContainer.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    function animate() {
+      title.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    title.addEventListener("pointerdown", (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startRotX = rotationX;
+      startRotY = rotationY;
     });
 
-    // Touch support
-    document.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        const x = (touch.clientX / window.innerWidth - 0.5) * 30;
-        const y = (touch.clientY / window.innerHeight - 0.5) * -30;
-        title.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+    window.addEventListener("pointermove", (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
+      rotationY = startRotY + deltaX * 0.5;
+      rotationX = startRotX - deltaY * 0.5;
 
-        const offsetX = (touch.clientX / window.innerWidth - 0.5) * 50;
-        const offsetY = (touch.clientY / window.innerHeight - 0.5) * 50;
-        starsContainer.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-      }
+      document.getElementById("parallax").style.transform = `translate(${deltaX * 0.05}px, ${deltaY * 0.05}px)`;
+    });
+
+    window.addEventListener("pointerup", () => {
+      isDragging = false;
     });
   </script>
 </body>
