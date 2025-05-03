@@ -129,19 +129,15 @@
       display: flex;
     }
 
-    #adminPanel {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      backdrop-filter: blur(5px);
-      background: transparent;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 40;
+    .animate-fade-in-out {
+      animation: fadeInOut 3s ease-in-out forwards;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
     }
   </style>
 </head>
@@ -170,11 +166,16 @@
   </div>
 
   <!-- ADMIN PANEL -->
-  <div id="adminPanel" class="hidden">
+  <div id="adminPanel" class="hidden fixed top-0 left-0 w-full h-full text-white flex items-center justify-center z-40" style="background: inherit;">
     <div class="text-center">
       <h2 class="text-2xl font-bold mb-4">Welcome to Admin Panel</h2>
       <p class="text-lg">You can now manage products, prices, etc.</p>
     </div>
+  </div>
+
+  <!-- WELCOME ANIMATION -->
+  <div id="welcomeScreen" class="fixed top-0 left-0 w-full h-full bg-black flex items-center justify-center z-50 hidden">
+    <h1 id="welcomeMessage" class="text-white text-4xl font-bold animate-fade-in-out">Welcome</h1>
   </div>
 
   <div class="flex flex-col items-center justify-center h-screen content space-y-4">
@@ -190,18 +191,8 @@
     const title = document.getElementById("title");
     const productBtn = document.getElementById("viewProductBtn");
 
-    gsap.to(title, {
-      duration: 2,
-      opacity: 1,
-      ease: "power2.out"
-    });
-
-    gsap.to(productBtn, {
-      duration: 2.5,
-      delay: 0.5,
-      opacity: 1,
-      ease: "power2.out"
-    });
+    gsap.to(title, { duration: 2, opacity: 1, ease: "power2.out" });
+    gsap.to(productBtn, { duration: 2.5, delay: 0.5, opacity: 1, ease: "power2.out" });
 
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
@@ -235,7 +226,6 @@
       const deltaY = e.clientY - startY;
       rotationY = startRotY + deltaX * 0.5;
       rotationX = startRotX - deltaY * 0.5;
-
       document.getElementById("parallax").style.transform = `translate(${deltaX * 0.05}px, ${deltaY * 0.05}px)`;
     });
 
@@ -250,12 +240,23 @@
     function login() {
       const user = document.getElementById("username").value.trim().toLowerCase();
       const pass = document.getElementById("password").value.trim();
+      const credentials = {
+        linley: "shelly",
+        indiren: "indiren07"
+      };
 
-      const valid = (user === "linley" && pass === "shelly") || (user === "indiren" && pass === "indiren07");
+      if (credentials[user] === pass) {
+        const name = user.charAt(0).toUpperCase() + user.slice(1);
+        const welcome = document.getElementById("welcomeScreen");
+        const welcomeMsg = document.getElementById("welcomeMessage");
+        welcomeMsg.textContent = `Welcome back, ${name}!`;
+        welcome.classList.remove("hidden");
 
-      if (valid) {
-        document.getElementById("loginModal").classList.remove("active");
-        document.getElementById("adminPanel").classList.remove("hidden");
+        setTimeout(() => {
+          welcome.classList.add("hidden");
+          document.getElementById("loginModal").classList.remove("active");
+          document.getElementById("adminPanel").classList.remove("hidden");
+        }, 3000);
       } else {
         document.getElementById("loginError").classList.remove("hidden");
       }
