@@ -134,11 +134,9 @@ body {
     <div class="nebula"></div>
     <div class="stars" id="stars"></div>
     <div class="curved-bg"></div>
-  </div>
-  <div class="menu-btn">
+  </div>  <div class="menu-btn">
     <button id="menuToggle" class="bg-white text-black px-3 py-2 rounded shadow-md">≡</button>
-  </div>
-  <div id="loginModal" class="modal fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 items-center justify-center z-30">
+  </div>  <div id="loginModal" class="modal fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 items-center justify-center z-30">
     <div class="bg-white p-6 rounded-lg w-80 space-y-4">
       <h2 class="text-lg font-bold">Admin Login</h2>
       <input id="username" type="text" placeholder="Username" class="w-full border px-2 py-1 rounded" />
@@ -146,16 +144,102 @@ body {
       <button onclick="login()" class="w-full bg-black text-white py-2 rounded">Login</button>
       <p id="loginError" class="text-red-500 text-sm hidden">Invalid credentials</p>
     </div>
-  </div>
-  <div id="adminPanel" class="hidden fixed top-0 left-0 w-full h-full text-white flex items-center justify-center z-40">
+  </div>  <div id="adminPanel" class="hidden fixed top-0 left-0 w-full h-full text-white flex items-center justify-center z-40">
     <div class="absolute w-full h-full backdrop-blur-md bg-black bg-opacity-70 z-0"></div>
     <div class="text-center relative z-10 space-y-4">
+      <h2 class="text-2xl font-bold mb-2">Welcome to Admin Panel</h2>
       <p id="welcomeMessage" class="text-lg transition-opacity duration-1000">Welcome, Admin!</p>
+      <p class="text-base">You can now manage products, prices, etc.</p>
     </div>
-  </div>
-  <div class="flex flex-col items-center justify-center h-screen content space-y-4">
+  </div>  <div class="flex flex-col items-center justify-center h-screen content space-y-4">
     <h1 id="title" class="heartless-font text-white text-4xl opacity-0">UnlimitedWear™</h1>
     <a href="products.html" class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300 opacity-0" id="viewProductBtn">View Product</a>
-  </div>
-  <script>
-    const
+  </div>  <script>
+    const title = document.getElementById("title");
+    const productBtn = document.getElementById("viewProductBtn");
+
+    gsap.to(title, {
+      duration: 2,
+      opacity: 1,
+      ease: "power2.out"
+    });
+
+    gsap.to(productBtn, {
+      duration: 2.5,
+      delay: 0.5,
+      opacity: 1,
+      ease: "power2.out"
+    });
+
+    const starsContainer = document.getElementById("stars");
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.top = Math.random() * 100 + "%";
+      star.style.left = Math.random() * 100 + "%";
+      starsContainer.appendChild(star);
+    }
+
+    let rotationX = 0, rotationY = 0, startX, startY, startRotX, startRotY;
+    let isDragging = false;
+
+    function animate() {
+      title.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    title.addEventListener("pointerdown", (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startRotX = rotationX;
+      startRotY = rotationY;
+    });
+
+    window.addEventListener("pointermove", (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
+      rotationY = startRotY + deltaX * 0.5;
+      rotationX = startRotX - deltaY * 0.5;
+      document.getElementById("parallax").style.transform = `translate(${deltaX * 0.05}px, ${deltaY * 0.05}px)`;
+    });
+
+    window.addEventListener("pointerup", () => {
+      isDragging = false;
+    });
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+      document.getElementById("loginModal").classList.toggle("active");
+    });
+
+    function login() {
+      const userInput = document.getElementById("username").value.trim().toLowerCase();
+      const pass = document.getElementById("password").value.trim();
+      const loginError = document.getElementById("loginError");
+      const welcomeMsg = document.getElementById("welcomeMessage");
+
+      const valid = (userInput === "linley" && pass === "shelly") || (userInput === "indiren" && pass === "indiren07");
+
+      if (valid) {
+        const name = userInput === "linley" ? "Linley" : "Indiren";
+
+        document.getElementById("loginModal").classList.remove("active");
+        gsap.to("#title", { duration: 1, opacity: 0, ease: "power2.out" });
+        gsap.to("#viewProductBtn", { duration: 1, opacity: 0, ease: "power2.out" });
+
+        const adminPanel = document.getElementById("adminPanel");
+        welcomeMsg.textContent = `Welcome, ${name}!`;
+        welcomeMsg.classList.remove("opacity-0");
+        adminPanel.classList.remove("hidden");
+
+        setTimeout(() => {
+          welcomeMsg.classList.add("opacity-0");
+        }, 4000);
+      } else {
+        loginError.classList.remove("hidden");
+      }
+    }
+  </script></body>
+</html>
