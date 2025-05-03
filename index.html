@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>UnlimitedWear™</title>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -114,15 +114,19 @@
       transform-style: preserve-3d;
     }
 
-    #menuButton {
+    .menu-btn {
       position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      z-index: 50;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 20;
     }
 
-    .modal-bg {
-      background: rgba(0, 0, 0, 0.7);
+    .modal {
+      display: none;
+    }
+
+    .modal.active {
+      display: flex;
     }
   </style>
 </head>
@@ -134,53 +138,56 @@
     <div class="curved-bg"></div>
   </div>
 
-  <button id="menuButton" class="p-2 border border-white text-white">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-    </svg>
-  </button>
+  <!-- Menu Button -->
+  <div class="menu-btn">
+    <button id="menuToggle" class="bg-white text-black px-3 py-2 rounded shadow-md">≡</button>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 items-center justify-center z-30">
+    <div class="bg-white p-6 rounded-lg w-80 space-y-4">
+      <h2 class="text-lg font-bold">Admin Login</h2>
+      <input id="username" type="text" placeholder="Username" class="w-full border px-2 py-1 rounded" />
+      <input id="password" type="password" placeholder="Password" class="w-full border px-2 py-1 rounded" />
+      <button onclick="login()" class="w-full bg-black text-white py-2 rounded">Login</button>
+      <p id="loginError" class="text-red-500 text-sm hidden">Invalid credentials</p>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 text-white flex items-center justify-center z-40">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold mb-4">Welcome to Admin Panel</h2>
+      <p class="text-lg">You can now manage products, prices, etc.</p>
+    </div>
+  </div>
 
   <div class="flex flex-col items-center justify-center h-screen content space-y-4">
     <h1 id="title" class="heartless-font text-white text-4xl opacity-0">UnlimitedWear™</h1>
     <a href="products.html"
-      id="productBtn"
-      class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold opacity-0 hover:bg-white hover:text-black transition duration-300">
+      class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300 opacity-0"
+      id="viewProductBtn">
       View Product
     </a>
   </div>
 
-  <!-- Login Modal -->
-  <div id="loginModal" class="fixed inset-0 flex items-center justify-center hidden modal-bg z-50">
-    <div class="bg-black p-6 rounded-lg text-white space-y-4 w-80">
-      <h2 class="text-xl font-bold">Admin Login</h2>
-      <input id="username" type="text" placeholder="Username" class="w-full p-2 bg-gray-800 rounded" />
-      <input id="password" type="password" placeholder="Password" class="w-full p-2 bg-gray-800 rounded" />
-      <button onclick="login()" class="w-full bg-white text-black font-semibold py-2 rounded">Login</button>
-    </div>
-  </div>
-
-  <!-- Admin Panel -->
-  <div id="adminPanel" class="fixed top-20 right-4 bg-white text-black p-4 hidden z-40">
-    <p>Welcome, admin. You can now edit products and prices here.</p>
-    <!-- You can expand this section with forms to actually handle editing -->
-  </div>
-
   <script>
-    // Animate title and button fade in
-    gsap.to("#title", {
+    const title = document.getElementById("title");
+    const productBtn = document.getElementById("viewProductBtn");
+
+    gsap.to(title, {
       duration: 2,
       opacity: 1,
       ease: "power2.out"
     });
-    gsap.to("#productBtn", {
-      duration: 3,
+
+    gsap.to(productBtn, {
+      duration: 2.5,
       delay: 0.5,
       opacity: 1,
       ease: "power2.out"
     });
 
-    // Stars
     const starsContainer = document.getElementById("stars");
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
@@ -190,10 +197,8 @@
       starsContainer.appendChild(star);
     }
 
-    // Parallax rotation
-    const title = document.getElementById("title");
-    let rotationX = 0, rotationY = 0;
-    let startX, startY, startRotX, startRotY, isDragging = false;
+    let rotationX = 0, rotationY = 0, startX, startY, startRotX, startRotY;
+    let isDragging = false;
 
     function animate() {
       title.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
@@ -215,25 +220,31 @@
       const deltaY = e.clientY - startY;
       rotationY = startRotY + deltaX * 0.5;
       rotationX = startRotX - deltaY * 0.5;
+
       document.getElementById("parallax").style.transform = `translate(${deltaX * 0.05}px, ${deltaY * 0.05}px)`;
     });
 
-    window.addEventListener("pointerup", () => { isDragging = false; });
-
-    // Menu button opens login
-    document.getElementById("menuButton").addEventListener("click", () => {
-      document.getElementById("loginModal").classList.remove("hidden");
+    window.addEventListener("pointerup", () => {
+      isDragging = false;
     });
 
-    function login() {
-      const user = document.getElementById("username").value.toLowerCase();
-      const pass = document.getElementById("password").value;
+    // Menu button toggles login modal
+    document.getElementById("menuToggle").addEventListener("click", () => {
+      document.getElementById("loginModal").classList.toggle("active");
+    });
 
-      if ((user === "linley" && pass === "shelly") || (user === "indiren" && pass === "indiren07")) {
-        document.getElementById("loginModal").classList.add("hidden");
+    // Login validation
+    function login() {
+      const user = document.getElementById("username").value.trim().toLowerCase();
+      const pass = document.getElementById("password").value.trim();
+
+      const valid = (user === "linley" && pass === "shelly") || (user === "indiren" && pass === "indiren07");
+
+      if (valid) {
+        document.getElementById("loginModal").classList.remove("active");
         document.getElementById("adminPanel").classList.remove("hidden");
       } else {
-        alert("Invalid credentials");
+        document.getElementById("loginError").classList.remove("hidden");
       }
     }
   </script>
