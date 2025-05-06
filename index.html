@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -10,123 +9,123 @@
     @font-face {
       font-family: 'Heartless';
       src: url('./Heartless.ttf') format('truetype');
-    }
-    html, body {
-      margin: 0;
-      overflow: hidden;
-      perspective: 1000px;
-      touch-action: none;
-    }
+    }html, body {
+  margin: 0;
+  overflow: hidden;
+  perspective: 1000px;
+  touch-action: none;
+}
 
-    body {
-      background: radial-gradient(ellipse at bottom, #0d0d2b 0%, #000000 100%);
-      background-size: 400% 400%;
-      animation: illusion 20s ease infinite;
-    }
+body {
+  background: radial-gradient(ellipse at bottom, #0d0d2b 0%, #000000 100%);
+  background-size: 400% 400%;
+  animation: illusion 20s ease infinite;
+}
 
-    @keyframes illusion {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+@keyframes illusion {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-    .waves {
-      position: absolute;
-      width: 200%;
-      height: 100%;
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 70%);
-      animation: waveMove 30s linear infinite;
-      transform: rotate(-5deg);
-      z-index: 1;
-    }
+.waves {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 70%);
+  animation: waveMove 30s linear infinite;
+  transform: rotate(-5deg);
+  z-index: 1;
+}
 
-    @keyframes waveMove {
-      0% { transform: translateX(-25%) rotate(-5deg); }
-      100% { transform: translateX(-75%) rotate(-5deg); }
-    }
+@keyframes waveMove {
+  0% { transform: translateX(-25%) rotate(-5deg); }
+  100% { transform: translateX(-75%) rotate(-5deg); }
+}
 
-    .parallax {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      transform-style: preserve-3d;
-    }
+.parallax {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  transform-style: preserve-3d;
+}
 
-    .stars {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-    }
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
 
-    .star {
-      position: absolute;
-      width: 1.5px;
-      height: 1.5px;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 50%;
-      animation: twinkle 3s infinite ease-in-out;
-    }
+.star {
+  position: absolute;
+  width: 1.5px;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: twinkle 3s infinite ease-in-out;
+}
 
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 0.2; }
-    }
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.2; }
+}
 
-    .nebula {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.5), transparent 60%),
-        radial-gradient(circle at 80% 50%, rgba(0, 255, 255, 0.5), transparent 70%),
-        radial-gradient(circle at 50% 70%, rgba(255, 255, 0, 0.4), transparent 65%),
-        radial-gradient(circle at 30% 80%, rgba(255, 105, 180, 0.5), transparent 60%);
-      mix-blend-mode: screen;
-      z-index: 0;
-    }
+.nebula {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.5), transparent 60%),
+    radial-gradient(circle at 80% 50%, rgba(0, 255, 255, 0.5), transparent 70%),
+    radial-gradient(circle at 50% 70%, rgba(255, 255, 0, 0.4), transparent 65%),
+    radial-gradient(circle at 30% 80%, rgba(255, 105, 180, 0.5), transparent 60%);
+  mix-blend-mode: screen;
+  z-index: 0;
+}
 
-    .curved-bg {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 300px;
-      background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
-      clip-path: ellipse(80% 100% at 50% 100%);
-      z-index: 1;
-    }
+.curved-bg {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
+  clip-path: ellipse(80% 100% at 50% 100%);
+  z-index: 1;
+}
 
-    .content {
-      position: relative;
-      z-index: 10;
-    }
+.content {
+  position: relative;
+  z-index: 10;
+}
 
-    .heartless-font {
-      font-family: 'Heartless', sans-serif;
-    }
+.heartless-font {
+  font-family: 'Heartless', sans-serif;
+}
 
-    #title {
-      transform-style: preserve-3d;
-    }
+#title {
+  transform-style: preserve-3d;
+}
 
-    .menu-btn {
-      position: fixed;
-      top: 1.25rem;
-      right: 1.25rem;
-      z-index: 20;
-    }
+.menu-btn {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 20;
+}
 
-    .modal {
-      display: none;
-    }
+.modal {
+  display: none;
+}
 
-    .modal.active {
-      display: flex;
-    }
+.modal.active {
+  display: flex;
+}
+
   </style>
 </head>
 <body>
@@ -135,13 +134,9 @@
     <div class="nebula"></div>
     <div class="stars" id="stars"></div>
     <div class="curved-bg"></div>
-  </div>
-
-  <div class="menu-btn">
+  </div>  <div class="menu-btn">
     <button id="menuToggle" class="bg-white text-black px-3 py-2 rounded shadow-md">≡</button>
-  </div>
-
-  <div id="loginModal" class="modal fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 items-center justify-center z-30">
+  </div>  <div id="loginModal" class="modal fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 items-center justify-center z-30">
     <div class="bg-white p-6 rounded-lg w-80 space-y-4">
       <h2 class="text-lg font-bold">Admin Login</h2>
       <input id="username" type="text" placeholder="Username" class="w-full border px-2 py-1 rounded" />
@@ -149,21 +144,17 @@
       <button onclick="login()" class="w-full bg-black text-white py-2 rounded">Login</button>
       <p id="loginError" class="text-red-500 text-sm hidden">Invalid credentials</p>
     </div>
-  </div>
-
-  <div id="adminPanel" class="hidden fixed top-0 left-0 w-full h-full text-white flex items-center justify-center z-40">
+  </div>  <div id="adminPanel" class="hidden fixed top-0 left-0 w-full h-full text-white flex items-center justify-center z-40">
     <div class="absolute w-full h-full backdrop-blur-md bg-black bg-opacity-70 z-0"></div>
     <div class="text-center relative z-10 space-y-4">
+      <h2 class="text-2xl font-bold mb-2">Welcome to Admin Panel</h2>
       <p id="welcomeMessage" class="text-lg transition-opacity duration-1000">Welcome, Admin!</p>
+      <p class="text-base">You can now manage products, prices, etc.</p>
     </div>
-  </div>
-
-  <div class="flex flex-col items-center justify-center h-screen content space-y-4">
+  </div>  <div class="flex flex-col items-center justify-center h-screen content space-y-4">
     <h1 id="title" class="heartless-font text-white text-4xl opacity-0">UnlimitedWear™</h1>
     <a href="products.html" class="border border-white text-white px-8 py-3 rounded-none text-base font-semibold hover:bg-white hover:text-black transition duration-300 opacity-0" id="viewProductBtn">View Product</a>
-  </div>
-
-  <script>
+  </div>  <script>
     const title = document.getElementById("title");
     const productBtn = document.getElementById("viewProductBtn");
 
@@ -245,11 +236,10 @@
 
         setTimeout(() => {
           welcomeMsg.classList.add("opacity-0");
-        }, 2000); // now 2 seconds
+        }, 4000);
       } else {
         loginError.classList.remove("hidden");
       }
     }
-  </script>
-</body>
+  </script></body>
 </html>
